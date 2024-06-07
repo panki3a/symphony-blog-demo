@@ -1,0 +1,91 @@
+{
+    "type": "pixel-demo",
+    "license": "proprietary",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.3",
+        "doctrine/orm": "^3.2",
+        "symfony/console": "7.1.*",
+        "symfony/dotenv": "7.1.*",
+        "symfony/flex": "^2.4.5",
+        "symfony/framework-bundle": "7.1.*",
+        "symfony/runtime": "7.1.*",
+        "symfony/yaml": "7.1.*"
+    },
+    "require-dev": {
+        "dama/doctrine-test-bundle": ">=8.2",
+        "friendsofphp/php-cs-fixer": "^3.58.1",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^1.11.4",
+        "phpunit/phpunit": "^11.2.0",
+        "rector/swiss-knife": "^0.2.16",
+        "squizlabs/php_codesniffer": "^3.10.1",
+        "symfony/browser-kit": "7.1.*",
+        "symfony/css-selector": "7.1.*",
+        "symfony/maker-bundle": "^1.59.1",
+        "symfony/phpunit-bridge": "^7.1.1",
+        "symfony/stopwatch": "7.1.*",
+        "symfony/web-profiler-bundle": "7.1.*"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "symfony/flex": true,
+            "symfony/runtime": true,
+            "phpstan/extension-installer": true
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "replace": {
+        "symfony/polyfill-intl-grapheme": "*",
+        "symfony/polyfill-intl-normalizer": "*",
+        "symfony/polyfill-intl-idn": "*",
+        "symfony/polyfill-mbstring": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*",
+        "symfony/polyfill-php82": "*",
+        "symfony/polyfill-php83": "*",
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-uuid": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts",
+            "composer bump"
+        ],
+        "phpcs": "vendor/bin/phpcs --standard=PSR12 -n --colors --extensions=php ./src",
+        "phpcsfix": "vendor/bin/php-cs-fixer fix ./src --rules=@PSR12,declare_strict_types --allow-risky=yes",
+        "phpstan": "php -d memory_limit=-1 ./vendor/bin/phpstan analyse",
+        "commented-code": "vendor/bin/swiss-knife check-commented-code ./src",
+        "phpunit": "vendor/bin/phpunit"
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "7.1.*"
+        }
+    }
+}

@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+
+    pixel-blog-nginx:
+        build:
+            context: .
+            dockerfile: ./.docker/nginx/Dockerfile
+        container_name: pixel-blog-nginx
+        ports:
+            - "8080:80"
+        logging:
+            driver: 'json-file'
+            options:
+                max-size: '5m'
+                max-file: '5'
+        volumes:
+            - ./:/app:delegated
+        depends_on:
+            - pixel-blog-php-fpm
+        environment:
+            PHP_HOST: "pixel-blog-php-fpm"
+
+    pixel-blog-php-fpm:
+        container_name: pixel-blog-php-fpm
+        build:
+            context: .
+            dockerfile: ./.docker/php-fpm-local/Dockerfile
+        logging:
+            driver: 'json-file'
+            options:
+                max-size: '5m'
+                max-file: '5'
+        volumes:
+            - ./:/app:delegated
+        depends_on:
+            - pixel-blog-mysql
+            - pixel-blog-redis
+        environment:
+            DB_CONNECTION: mysql
+            DB_HOST: 'pixel-blog-mysql'
+            DB_PORT: '3306'
+            DB_DATABASE: pixel-blog
+            DB_USERNAME: pixel-blog
+            DB_PASSWORD: pixel-blog
+
+    pixel-blog-mysql:
+        image: mysql:8.4
+        command: --mysql-native-password=ON --default-time-zone=+02:00 --sort_buffer_size=10m
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: pixel-blog
+            MYSQL_USER: pixel-blog
+            MYSQL_PASSWORD: pixel-blog
+            TZ: Europe/Bratislava
+        volumes:
+            - pixel-blog-mysql:/var/lib/mysql
+        ports:
+            - "3382:3306"
+
+    pixel-blog-redis:
+        image: redis:alpine
+        restart: always
+        ports:
+            - "6381:6379"
+
+volumes:
+    pixel-blog-mysql:
+        name: pixel-blog-mysql
+        external: false
