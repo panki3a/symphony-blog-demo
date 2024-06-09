@@ -16,6 +16,9 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 #[HasLifecycleCallbacks]
 class User
 {
+    /**
+     * @var Collection<int, Comment>|ArrayCollection
+     */
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: "user")]
     private Collection $comments;
 
@@ -129,6 +132,9 @@ class User
         $this->updated_at = new \DateTimeImmutable();
     }
 
+    /**
+     * @return Collection<int, Comment>|ArrayCollection
+     */
     public function getComments(): Collection
     {
         return $this->comments;

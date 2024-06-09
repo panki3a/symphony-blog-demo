@@ -18,9 +18,10 @@ final class PostCommentController extends AbstractController
 {
     use HandleTrait;
 
-    public function __construct(MessageBusInterface $messageBus, readonly private LoggerInterface $logger)
-    {
-        $this->messageBus = $messageBus;
+    public function __construct(
+        private MessageBusInterface $messageBus,
+        private readonly LoggerInterface $logger
+    ) {
     }
 
     #[Route('/post-comment/{articleId}-{slug}', name: 'article_comment_post_detail', methods: ['POST'])]
@@ -38,7 +39,7 @@ final class PostCommentController extends AbstractController
                     userName: $form->get('user')->get('name')->getData(),
                     userSurname: $form->get('user')->get('surname')->getData(),
                 );
-                $comment = $this->handle($createCommentCommand);
+                $this->handle($createCommentCommand);
                 $this->addFlash('success', 'Your comment has been posted successfully!');
             } else {
                 $this->addFlash('error', 'An error occurred while posting your comment. Please try again.');
@@ -46,7 +47,6 @@ final class PostCommentController extends AbstractController
             return $this->redirectToRoute('article_detail', compact('articleId', 'slug'), Response::HTTP_TEMPORARY_REDIRECT);
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
-            throw $e;
             return new Response('An error occurred while processing your request.', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

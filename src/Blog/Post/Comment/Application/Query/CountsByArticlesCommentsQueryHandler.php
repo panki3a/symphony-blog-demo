@@ -8,14 +8,18 @@ use App\Blog\Post\Comment\Domain\Repository\CommentRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final readonly class ArticleCommentsQueryHandler
+final readonly class CountsByArticlesCommentsQueryHandler
 {
     public function __construct(private CommentRepositoryInterface $commentRepository)
     {
     }
 
-    public function __invoke(ArticleCommentsQuery $query): array
+    /**
+     * @param CountsByArticlesCommentsQuery $query
+     * @return int[]
+     */
+    public function __invoke(CountsByArticlesCommentsQuery $query): array
     {
-        return $this->commentRepository->findAllByArticleId($query->articleId);
+        return $this->commentRepository->countsByArticlesIds($query->articlesId);
     }
 }

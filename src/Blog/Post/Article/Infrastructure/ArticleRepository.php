@@ -11,6 +11,9 @@ use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<Article>
+ */
 class ArticleRepository extends ServiceEntityRepository implements ArticleRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
@@ -27,17 +30,6 @@ class ArticleRepository extends ServiceEntityRepository implements ArticleReposi
     {
         $this->getEntityManager()->persist($article);
         $this->getEntityManager()->flush();
-    }
-
-    public function findPaginatedArticles(int $page, int $limit): Paginator
-    {
-        $query = $this->createQueryBuilder('a')
-            ->orderBy('a.created_at', 'DESC')
-            ->setFirstResult(($page - 1) * $limit)
-            ->setMaxResults($limit)
-            ->getQuery();
-
-        return new Paginator($query, true);
     }
 
     public function findPaginatedArticlesWithAuthor(int $page = 1, int $limit = 10): array

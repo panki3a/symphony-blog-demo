@@ -12,9 +12,16 @@ interface ArticleRepositoryInterface
 {
     public function find(int $id, LockMode|int|null $lockMode = null, ?int $lockVersion = null): ?Article;
 
+    /**
+     * @return Article[]
+     */
     public function findAll(): array;
 
-    public function findPaginatedArticles(int $page, int $limit): Paginator;
+    /**
+     * @param int $page
+     * @param int $limit
+     * @return array{data: Article[], total: int, page: int, limit: int}
+     */
     public function findPaginatedArticlesWithAuthor(int $page, int $limit): array;
 
     public function save(Article $article): void;

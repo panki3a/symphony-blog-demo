@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Blog\Post\Author\Domain\Entity;
 
 use App\Blog\Post\Article\Domain\Entity\Article;
-use App\Repository\App\Blog\Post\Author\Domain\Entity\AuthorRepository;
+use App\Blog\Post\Author\Infrastructure\AuthorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,6 +15,9 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 #[HasLifecycleCallbacks]
 class Author
 {
+    /**
+     * @var Collection<int,Article>|ArrayCollection
+     */
     #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'author')]
     private Collection $articles;
 
@@ -28,7 +31,7 @@ class Author
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: "string", length: 255, unique: true)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
@@ -128,6 +131,9 @@ class Author
         $this->updated_at = new \DateTimeImmutable();
     }
 
+    /**
+     * @return Collection<int,Article>|ArrayCollection
+     */
     public function getArticles(): Collection
     {
         return $this->articles;
@@ -146,7 +152,6 @@ class Author
     public function removeArticle(Article $article): self
     {
         if ($this->articles->removeElement($article)) {
-            // set the owning side to null (unless already changed)
             if ($article->getAuthor() === $this) {
                 $article->setAuthor(null);
             }

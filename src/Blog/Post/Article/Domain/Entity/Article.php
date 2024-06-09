@@ -17,10 +17,15 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 #[HasLifecycleCallbacks]
 final class Article
 {
+    private ?int $commentsCount;
+
     #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
     private Author $author;
 
+    /**
+     * @var Collection<int,Comment>|ArrayCollection
+     */
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'article')]
     private Collection $comments;
 
@@ -99,6 +104,7 @@ final class Article
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -175,6 +181,9 @@ final class Article
         return $this;
     }
 
+    /**
+     * @return Collection<int,Comment>|ArrayCollection
+     */
     public function getComments(): Collection
     {
         return $this->comments;
@@ -203,15 +212,7 @@ final class Article
     }
 
 
-
-
-
-
-
-
-    private ?int $commentsCount;
-
-    public function getCommentsCount(): int|null
+    public function getCommentsCount(): ?int
     {
         return $this->commentsCount;
     }
@@ -222,6 +223,4 @@ final class Article
 
         return $this;
     }
-
-
 }

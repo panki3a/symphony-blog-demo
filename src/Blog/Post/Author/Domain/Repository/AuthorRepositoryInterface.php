@@ -13,8 +13,16 @@ interface AuthorRepositoryInterface
 
     public function findByEmail(string $email): ?Author;
 
+    /**
+     * @param int $articleId
+     * @return Author[]
+     */
     public function findAllByArticleId(int $articleId): array;
 
+    /**
+     * @param string $email
+     * @return Author[]
+     */
     public function findAllByEmail(string $email): array;
 
     public function save(Author $author): void;

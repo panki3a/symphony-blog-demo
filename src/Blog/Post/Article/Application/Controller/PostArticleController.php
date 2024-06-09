@@ -18,9 +18,10 @@ final class PostArticleController extends AbstractController
 {
     use HandleTrait;
 
-    public function __construct(MessageBusInterface $messageBus, readonly private LoggerInterface $logger)
-    {
-        $this->messageBus = $messageBus;
+    public function __construct(
+        private MessageBusInterface $messageBus,
+        private readonly LoggerInterface $logger
+    ) {
     }
 
     #[Route('/post-article', name: 'article_post', methods: ['POST'])]
@@ -49,13 +50,14 @@ final class PostArticleController extends AbstractController
                     ['articleId' => $article->getId(), 'slug' => $article->getSlug()],
                     Response::HTTP_TEMPORARY_REDIRECT
                 );
-            } else {
-                $this->addFlash('error', 'An error occurred while creating your article. Please try again.');
-                return $this->redirectToRoute('articles_list', Response::HTTP_TEMPORARY_REDIRECT);
             }
+
+            $this->addFlash('error', 'An error occurred while creating your article. Please try again.');
+
+            return $this->redirectToRoute('articles_list', [], Response::HTTP_TEMPORARY_REDIRECT);
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
-            throw $e;
+
             return new Response('An error occurred while processing your request.', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

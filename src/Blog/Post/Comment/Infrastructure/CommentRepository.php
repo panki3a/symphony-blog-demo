@@ -10,6 +10,9 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\LockMode;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<Comment>
+ */
 class CommentRepository extends ServiceEntityRepository implements CommentRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
@@ -17,7 +20,7 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
         parent::__construct($registry, Comment::class);
     }
 
-    public function find(mixed $id, LockMode|int|null $lockMode = null, int|null $lockVersion = null): ?Comment
+    public function find(mixed $id, LockMode|int|null $lockMode = null, ?int $lockVersion = null): Comment|null
     {
         return parent::find($id, $lockMode, $lockVersion);
     }
@@ -47,21 +50,17 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
             ->getResult();
     }
 
-    public function getCountByArticles(array $articleIds): array
+    public function countsByArticlesIds(array $articlesIds): array
     {
-        $commentsCountQuery = $this->createQueryBuilder('a')
-            ->select('a.id, COUNT(c.id) AS commentsCount')
-            ->leftJoin('a.comments', 'c')
-            ->where('a.id IN (:articleIds)')
-            ->setParameter('articleIds', $articleIds)
+        $query = $this->createQueryBuilder('c')
+            ->select('a.id as articleId, COUNT(c.id) AS commentsCount')
+            ->join('c.article', 'a')
+            ->where('a IN (:articles)')
+            ->setParameter('articles', $articlesIds)
             ->groupBy('a.id')
             ->getQuery();
 
-        $commentsCounts = $commentsCountQuery->getResult();
 
-        // Map comments count to articles
-
-        return $commentsCounts;
+        return $query->getResult();
     }
-
 }

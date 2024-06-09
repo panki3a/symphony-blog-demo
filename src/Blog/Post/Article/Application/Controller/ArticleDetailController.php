@@ -6,7 +6,7 @@ namespace App\Blog\Post\Article\Application\Controller;
 
 use App\Blog\Post\Article\Application\Query\FindArticleQuery;
 use App\Blog\Post\Comment\Application\Form\CommentFormType;
-use App\Blog\Post\Comment\Application\Query\ArticleCommentsQuery;
+use App\Blog\Post\Comment\Application\Query\CommentsByArticleQuery;
 use App\Blog\Post\Comment\Application\Query\CountArticleCommentsQuery;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,9 +19,10 @@ final class ArticleDetailController extends AbstractController
 {
     use HandleTrait;
 
-    public function __construct(MessageBusInterface $messageBus, readonly private LoggerInterface $logger)
-    {
-        $this->messageBus = $messageBus;
+    public function __construct(
+        private MessageBusInterface $messageBus,
+        private readonly LoggerInterface $logger
+    ) {
     }
 
     #[Route('/article/{articleId}-{slug}', name: 'article_detail')]
@@ -30,7 +31,7 @@ final class ArticleDetailController extends AbstractController
         try {
             $article = $this->handle(new FindArticleQuery($articleId));
             $commentsCount = $this->handle(new CountArticleCommentsQuery($articleId));
-            $comments = $this->handle(new ArticleCommentsQuery($articleId));
+            $comments = $this->handle(new CommentsByArticleQuery($articleId));
 
             $commentForm = $this->createForm(
                 type: CommentFormType::class,
@@ -48,7 +49,6 @@ final class ArticleDetailController extends AbstractController
             );
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
-            throw $e;
             return new Response('An error occurred while processing your request.', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

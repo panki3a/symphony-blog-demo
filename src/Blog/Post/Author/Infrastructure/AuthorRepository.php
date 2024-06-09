@@ -10,6 +10,9 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\LockMode;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<Author>
+ */
 class AuthorRepository extends ServiceEntityRepository implements AuthorRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)

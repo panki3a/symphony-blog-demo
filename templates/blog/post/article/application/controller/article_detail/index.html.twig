@@ -5,7 +5,11 @@
 {% block body %}
     <article>
         <h2>{{ article.title }}</h2>
-        <p>{{ article.content }}</p>
+        <p>name: {{ article.author.name }}</p>
+        <p>surname: {{ article.author.surname }}</p>
+        <p>email: {{ article.author.email }}</p>
+        <p>date: {{ article.getCreatedAt()|date('m:d:Y h:i') }}</p>
+        <p>content: {{ article.content }}</p>
     </article>
 
     <section id="add-comment">

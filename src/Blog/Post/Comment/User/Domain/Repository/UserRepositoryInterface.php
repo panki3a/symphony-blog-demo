@@ -11,6 +11,9 @@ interface UserRepositoryInterface
 {
     public function find(int $id, LockMode|int|null $lockMode = null, ?int $lockVersion = null): ?User;
 
+    /**
+     * @return User[]
+     */
     public function findAll(): array;
 
     public function findByEmail(string $email): ?User;

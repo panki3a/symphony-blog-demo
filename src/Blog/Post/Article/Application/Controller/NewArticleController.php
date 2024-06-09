@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class NewArticleController extends AbstractController
 {
-    public function __construct(private LoggerInterface $logger)
+    public function __construct(private readonly LoggerInterface $logger)
     {
     }
 
@@ -33,8 +33,6 @@ final class NewArticleController extends AbstractController
             );
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
-            throw $e;
-
             return new Response('An error occurred while processing your request.', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
