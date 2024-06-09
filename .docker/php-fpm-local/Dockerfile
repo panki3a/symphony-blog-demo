@@ -28,10 +28,15 @@ RUN apt-get update && apt-get install -y \
         libicu-dev \
     ;
 
-RUN pecl install \
-        redis \
-        xdebug \
-    ; \
+#RUN pecl install \
+#        redis \
+##        xdebug \
+#    ; \
+
+#RUN docker-php-ext-enable \
+##        opcache \
+#        redis \
+#    ;
 RUN    docker-php-ext-install -j$(nproc) \
         intl \
         opcache \
@@ -42,17 +47,13 @@ RUN    docker-php-ext-install -j$(nproc) \
         bcmath  \
         pcntl \
         gd \
-	; \
-    docker-php-ext-enable \
-        opcache \
-        redis \
-    ; \
-    docker-php-ext-install intl ;
+	;
+
 # install the xhprof extension to profile requests
-COPY ./.docker/php-fpm-local/xhprof.ini /usr/local/etc/php/conf.d/xhprof.ini
-RUN pecl install xhprof; \
-    docker-php-ext-enable xhprof; \
-    mkdir -m 777 /profiles ;
+#COPY ./.docker/php-fpm-local/xhprof.ini /usr/local/etc/php/conf.d/xhprof.ini
+#RUN pecl install xhprof; \
+#    docker-php-ext-enable xhprof; \
+#    mkdir -m 777 /profiles ;
 
 RUN { \
         echo 'memory_limit=128M'; \

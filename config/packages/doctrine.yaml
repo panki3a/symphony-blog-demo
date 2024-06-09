@@ -16,12 +16,30 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
-            App:
+            Article:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+                dir: '%kernel.project_dir%/src/Blog/Post/Article/Domain/Entity'
+                prefix: 'App\Blog\Post\Article\Domain\Entity'
+                alias: Article
+            Author:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Blog/Post/Author/Domain/Entity'
+                prefix: 'App\Blog\Post\Author\Domain\Entity'
+                alias: Writer
+            Comment:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Blog/Post/Comment/Domain/Entity'
+                prefix: 'App\Blog\Post\Comment\Domain\Entity'
+                alias: Comment
+            User:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Blog/Post/Comment/User/Domain/Entity'
+                prefix: 'App\Blog\Post\Comment\User\Domain\Entity'
+                alias: User
         controller_resolver:
             auto_mapping: false
 
