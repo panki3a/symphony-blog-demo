@@ -16,7 +16,8 @@
                     <p class="card-text">{{ article.description }}</p>
                 </div>
                 <div class="card-footer text-muted">
-                    Posted on {{ article.getCreatedAt()|date('m:d:Y h:i') }} by {{ article.author.name }} {{ article.author.surname }}
+                    Posted on {{ article.getCreatedAt()|date('m:d:Y h:i') }}
+                    <p>Author: {{ article.author.name }} {{ article.author.surname }}</p>
                     <p>Email: {{ article.author.email }}</p>
                     <p>Comments Count: {{ article.commentsCount() }}</p>
                 </div>
@@ -56,42 +57,3 @@
         </div>
     {% endblock %}
 {% endblock %}
-
-
-{# {% block body %} #}
-{#    <h2>Latest Articles</h2> #}
-{#    <ul> #}
-{#        {% for article in articles %} #}
-{#            <li> #}
-{#                <h3> #}
-{#                    <a href="{{ path('article_detail', {slug: article.slug, articleId: article.id}) }}">{{ article.title }}</a> #}
-{#                </h3> #}
-{#                <p>description: {{ article.description }}</p> #}
-{#                <p>name: {{ article.author.name }}</p> #}
-{#                <p>surname: {{ article.author.surname }}</p> #}
-{#                <p>email: {{ article.author.email }}</p> #}
-{#                <p>date: {{ article.getCreatedAt()|date('m:d:Y h:i') }}</p> #}
-{#                <p>comment count : {{ article.commentsCount }}</p> #}
-{#            </li> #}
-{#        {% else %} #}
-{#            <li>No articles found</li> #}
-{#        {% endfor %} #}
-{#    </ul> #}
-
-{#    {% block pagination %} #}
-{#        <div class="pagination"> #}
-{#            {% if page > 1 %} #}
-{#                <a href="{{ path('articles_list', {'page': page - 1}) }}">Previous</a> #}
-{#            {% endif %} #}
-
-{#            {% for i in 1..(total // limit + 1 ) %} #}
-{#                <a href="{{ path('articles_list', {'page': i}) }}" class="{{ page == i ? 'active' : '' }}">{{ i }}</a> #}
-{#            {% endfor %} #}
-
-{#            {% if page < (total // limit + 1 ) %} #}
-{#                <a href="{{ path('articles_list', {'page': page + 1}) }}">Next</a> #}
-{#            {% endif %} #}
-{#        </div> #}
-{#    {% endblock %} #}
-
-{# {% endblock %} #}

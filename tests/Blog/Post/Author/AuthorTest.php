@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Blog\Post\Author;
 
-use App\Blog\Post\Author\Domain\Entity\Author;
 use App\Blog\Post\Article\Domain\Entity\Article;
+use App\Blog\Post\Author\Domain\Entity\Author;
 use PHPUnit\Framework\TestCase;
 
 class AuthorTest extends TestCase

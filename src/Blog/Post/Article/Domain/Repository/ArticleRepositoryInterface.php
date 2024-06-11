@@ -6,7 +6,6 @@ namespace App\Blog\Post\Article\Domain\Repository;
 
 use App\Blog\Post\Article\Domain\Entity\Article;
 use Doctrine\DBAL\LockMode;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 
 interface ArticleRepositoryInterface
 {

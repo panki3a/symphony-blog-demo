@@ -76,7 +76,8 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@auto-scripts"
         ],
         "post-update-cmd": [
             "@auto-scripts",
@@ -87,7 +88,8 @@
         "phpstan": "php -d memory_limit=-1 ./vendor/bin/phpstan analyse ",
         "commented-code": "vendor/bin/swiss-knife check-commented-code ./src",
         "var-dump-check": " vendor/bin/var-dump-check --symfony --tracy ./src",
-        "phpunit": "vendor/bin/phpunit"
+        "phpunit": "vendor/bin/phpunit",
+        "twig" : "bin/console lint:twig templates"
     },
     "conflict": {
         "symfony/symfony": "*"

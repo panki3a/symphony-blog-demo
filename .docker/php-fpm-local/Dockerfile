@@ -28,15 +28,6 @@ RUN apt-get update && apt-get install -y \
         libicu-dev \
     ;
 
-#RUN pecl install \
-#        redis \
-##        xdebug \
-#    ; \
-
-#RUN docker-php-ext-enable \
-##        opcache \
-#        redis \
-#    ;
 RUN    docker-php-ext-install -j$(nproc) \
         intl \
         opcache \

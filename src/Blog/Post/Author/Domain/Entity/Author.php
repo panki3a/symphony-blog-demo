@@ -15,9 +15,7 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 #[HasLifecycleCallbacks]
 class Author
 {
-    /**
-     * @var Collection<int,Article>|ArrayCollection
-     */
+    /** @var Collection<int,Article>|ArrayCollection */
     #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'author')]
     private Collection $articles;
 

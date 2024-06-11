@@ -23,9 +23,7 @@ final class Article
     #[ORM\JoinColumn(nullable: false)]
     private Author $author;
 
-    /**
-     * @var Collection<int,Comment>|ArrayCollection
-     */
+    /** @var Collection<int,Comment>|ArrayCollection */
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'article')]
     private Collection $comments;
 

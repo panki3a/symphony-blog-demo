@@ -16,9 +16,7 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 #[HasLifecycleCallbacks]
 class User
 {
-    /**
-     * @var Collection<int, Comment>|ArrayCollection
-     */
+    /** @var Collection<int, Comment>|ArrayCollection */
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: "user")]
     private Collection $comments;
 

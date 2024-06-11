@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class UserFormType extends AbstractType
 {
@@ -19,13 +20,20 @@ final class UserFormType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'constraints' => [
-                    new Email([
-                        'message' => 'The email "{{ value }}" is not a valid email.',
-                    ]),
+                    new NotBlank(['message' => 'Email cannot be empty']),
+                    new Email(['message' => 'The email "{{ value }}" is not a valid email.']),
                 ],
             ])
-            ->add('name', TextType::class)
-            ->add('surname', TextType::class);
+            ->add('name', TextType::class, [
+                'constraints' => [
+                    new NotBlank(['message' => 'Name cannot be empty']),
+                ],
+            ])
+            ->add('surname', TextType::class, [
+                'constraints' => [
+                    new NotBlank(['message' => 'Surname cannot be empty']),
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

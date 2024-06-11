@@ -7,6 +7,7 @@ namespace App\Blog\Post\Article\Application\Controller;
 use App\Blog\Post\Article\Application\Form\ArticleFormType;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -16,7 +17,7 @@ final class NewArticleController extends AbstractController
     {
     }
 
-    #[Route('/new-article', name: 'new-article', methods: ['GET'])]
+    #[Route('/new-article', name: 'new-article', methods: [Request::METHOD_GET, Request::METHOD_POST])]
     public function __invoke(): Response
     {
         try {

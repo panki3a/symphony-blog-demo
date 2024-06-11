@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class CommentFormType extends AbstractType
 {
@@ -21,6 +22,9 @@ final class CommentFormType extends AbstractType
             ->add('content', TextType::class, [
                 'required' => true,
                 'label' => 'Comment',
+                'constraints' => [
+                    new NotBlank(['message' => 'Comment cannot be empty']),
+                ],
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Post Comment',

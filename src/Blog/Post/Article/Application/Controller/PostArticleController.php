@@ -51,10 +51,13 @@ final class PostArticleController extends AbstractController
                     Response::HTTP_TEMPORARY_REDIRECT
                 );
             }
+            $errors = [];
+            foreach ($form->getErrors(true) as $error) {
+                $errors[] = $error->getMessage();
+            }
+            $this->addFlash('danger', !empty($errors) ? implode(' ', $errors) : 'An error occurred while creating your article. Please try again.');
 
-            $this->addFlash('error', 'An error occurred while creating your article. Please try again.');
-
-            return $this->redirectToRoute('articles_list', [], Response::HTTP_TEMPORARY_REDIRECT);
+            return $this->redirectToRoute('new-article', [], Response::HTTP_TEMPORARY_REDIRECT);
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
 

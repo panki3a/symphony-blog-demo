@@ -24,7 +24,7 @@ final class PostCommentController extends AbstractController
     ) {
     }
 
-    #[Route('/post-comment/{articleId}-{slug}', name: 'article_comment_post_detail', methods: ['POST'])]
+    #[Route('/post-comment/{articleId}-{slug}', name: 'article_comment_post_detail', methods: [Request::METHOD_POST])]
     public function __invoke(Request $request, int $articleId, string $slug): Response
     {
         try {
@@ -42,7 +42,11 @@ final class PostCommentController extends AbstractController
                 $this->handle($createCommentCommand);
                 $this->addFlash('success', 'Your comment has been posted successfully!');
             } else {
-                $this->addFlash('error', 'An error occurred while posting your comment. Please try again.');
+                $errors = [];
+                foreach ($form->getErrors(true) as $error) {
+                    $errors[] = $error->getMessage();
+                }
+                $this->addFlash('danger', !empty($errors) ? implode(' ', $errors) : 'An error occurred while posting your comment. Please try again.');
             }
             return $this->redirectToRoute('article_detail', compact('articleId', 'slug'), Response::HTTP_TEMPORARY_REDIRECT);
         } catch (\Exception $e) {
