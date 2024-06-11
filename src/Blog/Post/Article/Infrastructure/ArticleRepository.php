@@ -8,7 +8,6 @@ use App\Blog\Post\Article\Domain\Entity\Article;
 use App\Blog\Post\Article\Domain\Repository\ArticleRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\LockMode;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -40,6 +39,7 @@ class ArticleRepository extends ServiceEntityRepository implements ArticleReposi
             ->innerJoin('a.author', 'au')
             ->setFirstResult($offset)
             ->setMaxResults($limit)
+            ->orderBy('a.created_at ', 'DESC')
             ->getQuery();
 
         $articles = $articlesQuery->getResult();

@@ -62,7 +62,7 @@
                                 <p class="card-text">{{ comment.content }}</p>
                             </div>
                             <div class="card-footer text-muted">
-                                Posted by {{ comment.user.name }} on {{ comment.getCreatedAt()|date('m/d/Y') }}
+                                Posted by {{ comment.user.name }} on {{ comment.getCreatedAt()|date('d.m.Y h:i') }}
                             </div>
                         </div>
                     {% else %}

@@ -16,7 +16,7 @@
                     <p class="card-text">{{ article.description }}</p>
                 </div>
                 <div class="card-footer text-muted">
-                    Posted on {{ article.getCreatedAt()|date('m:d:Y h:i') }}
+                    Posted on {{ article.getCreatedAt()|date('d.m.Y h:i') }}
                     <p>Author: {{ article.author.name }} {{ article.author.surname }}</p>
                     <p>Email: {{ article.author.email }}</p>
                     <p>Comments Count: {{ article.commentsCount() }}</p>
