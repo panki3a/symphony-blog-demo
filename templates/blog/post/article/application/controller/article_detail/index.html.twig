@@ -3,34 +3,108 @@
 {% block title %}{{ article.title }}{% endblock %}
 
 {% block body %}
-    <article>
-        <h2>{{ article.title }}</h2>
-        <p>name: {{ article.author.name }}</p>
-        <p>surname: {{ article.author.surname }}</p>
-        <p>email: {{ article.author.email }}</p>
-        <p>date: {{ article.getCreatedAt()|date('m:d:Y h:i') }}</p>
-        <p>content: {{ article.content }}</p>
-    </article>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-8">
+                <h1 class="mb-4">{{ article.title }}</h1>
+                <p class="text-muted">
+                    By {{ article.author.name }} {{ article.author.surname }} on {{ article.getCreatedAt()|date('m:d:Y h:i') }}
+                </p>
+                <p class="text-muted">
+                    Email: {{ article.author.email }}
+                </p>
+                <hr>
+                <p>{{ article.content }}</p>
+                <hr>
+                <section id="comments">
 
-    <section id="add-comment">
-        <h3>Add a Comment</h3>
+                    <section id="add-comment" class="mb-4">
+                        <h3>Add a Comment</h3>
+                        {{ form_start(commentForm, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+                        <div class="mb-3">
+                            {{ form_label(commentForm.user.name, 'Name', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(commentForm.user.name, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                            <div class="invalid-feedback">
+                                Please provide a name.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(commentForm.user.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(commentForm.user.email, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                            <div class="invalid-feedback">
+                                Please provide a valid email.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(commentForm.user.surname, 'Surname', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(commentForm.user.surname, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                            <div class="invalid-feedback">
+                                Please provide a surname.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(commentForm.content, 'Comment', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(commentForm.content, {'attr': {'class': 'form-control', 'rows': '3', 'required': 'required'}}) }}
+                            <div class="invalid-feedback">
+                                Please provide a comment.
+                            </div>
+                        </div>
+                        {{ form_end(commentForm) }}
+                    </section>
 
-        {{ form_start(commentForm) }}
-        {{ form_widget(commentForm) }}
-        {{ form_end(commentForm) }}
-    </section>
+                    <hr>
 
-    <section id="comments">
-        <h3>Comments</h3>
-        <ul>
-            {% for comment in article.comments %}
-                <li>{{ comment.user.name }} on {{ comment.getCreatedAt()|date('m/d/Y') }}: {{ comment.content }}</li>
-            {% else %}
-                <li>No comments yet</li>
-            {% endfor %}
-        </ul>
-    </section>
+                    <h3>Comments ({{ article.comments|length }})</h3>
 
-
+                    {% for comment in article.comments %}
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <p class="card-text">{{ comment.content }}</p>
+                            </div>
+                            <div class="card-footer text-muted">
+                                Posted by {{ comment.user.name }} on {{ comment.getCreatedAt()|date('m/d/Y') }}
+                            </div>
+                        </div>
+                    {% else %}
+                        <p>No comments yet</p>
+                    {% endfor %}
+                </section>
+            </div>
+        </div>
+    </div>
 {% endblock %}
+
+{# {% block title %}{{ article.title }}{% endblock %} #}
+
+{# {% block body %} #}
+{#    <article> #}
+{#        <h2>{{ article.title }}</h2> #}
+{#        <p>name: {{ article.author.name }}</p> #}
+{#        <p>surname: {{ article.author.surname }}</p> #}
+{#        <p>email: {{ article.author.email }}</p> #}
+{#        <p>date: {{ article.getCreatedAt()|date('m:d:Y h:i') }}</p> #}
+{#        <p>content: {{ article.content }}</p> #}
+{#    </article> #}
+
+{#    <section id="add-comment"> #}
+{#        <h3>Add a Comment</h3> #}
+
+{#        {{ form_start(commentForm) }} #}
+{#        {{ form_widget(commentForm) }} #}
+{#        {{ form_end(commentForm) }} #}
+{#    </section> #}
+
+{#    <section id="comments"> #}
+{#        <h3>Comments</h3> #}
+{#        <ul> #}
+{#            {% for comment in article.comments %} #}
+{#                <li>{{ comment.user.name }} on {{ comment.getCreatedAt()|date('m/d/Y') }}: {{ comment.content }}</li> #}
+{#            {% else %} #}
+{#                <li>No comments yet</li> #}
+{#            {% endfor %} #}
+{#        </ul> #}
+{#    </section> #}
+
+
+{# {% endblock %} #}
 

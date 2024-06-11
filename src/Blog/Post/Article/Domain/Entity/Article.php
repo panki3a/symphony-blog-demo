@@ -174,7 +174,7 @@ final class Article
         return $this->author;
     }
 
-    public function setAuthor(?Author $author): static
+    public function setAuthor(Author $author): static
     {
         $this->author = $author;
 
@@ -201,16 +201,12 @@ final class Article
 
     public function removeComment(Comment $comment): static
     {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getArticle() === $this) {
-                $comment->setArticle(null);
-            }
+        if ($this->comments->removeElement($comment) && $comment->getArticle() === $this) {
+            $comment->setArticle(null);
         }
 
         return $this;
     }
-
 
     public function getCommentsCount(): ?int
     {

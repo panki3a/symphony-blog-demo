@@ -8,6 +8,7 @@ use App\Blog\Post\Comment\Domain\Entity\Comment;
 use App\Blog\Post\Comment\User\Application\Form\UserFormType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,8 +18,14 @@ final class CommentFormType extends AbstractType
     {
         $builder
             ->add('user', UserFormType::class)
-            ->add('content')
-            ->add('save', SubmitType::class, ['label' => 'Post Comment']);
+            ->add('content', TextType::class, [
+                'required' => true,
+                'label' => 'Comment',
+            ])
+            ->add('save', SubmitType::class, [
+                'label' => 'Post Comment',
+                'attr' => ['class' => 'btn btn-primary'],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

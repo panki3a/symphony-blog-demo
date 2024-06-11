@@ -3,14 +3,65 @@
 {% block title %}New Article{% endblock %}
 
 {% block body %}
-    <h1>Create a new article</h1>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1 class="text-center">Create a new article</h1>
+                {{ form_start(articleForm, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
 
-    {{ form_start(articleForm) }}
-    {{ form_row(articleForm.author) }}
-    {{ form_row(articleForm.title) }}
-    {{ form_row(articleForm.description) }}
-    {{ form_row(articleForm.content) }}
+                <div class="mb-3">
+                    {{ form_label(articleForm.author.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(articleForm.author.email, {'attr': {'class': 'form-control'}}) }}
+                    <div class="invalid-feedback">
+                        Please provide an email.
+                    </div>
+                </div>
 
-    <button type="submit" class="btn btn-primary">Create</button>
-    {{ form_end(articleForm) }}
+                <div class="mb-3">
+                    {{ form_label(articleForm.author.name, 'Name', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(articleForm.author.name, {'attr': {'class': 'form-control'}}) }}
+                    <div class="invalid-feedback">
+                        Please provide a name.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(articleForm.author.surname, 'Surname', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(articleForm.author.surname, {'attr': {'class': 'form-control'}}) }}
+                    <div class="invalid-feedback">
+                        Please provide a surname.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(articleForm.title, 'Title', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(articleForm.title, {'attr': {'class': 'form-control'}}) }}
+                    <div class="invalid-feedback">
+                        Please provide a title.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(articleForm.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(articleForm.description, {'attr': {'class': 'form-control'}}) }}
+                    <div class="invalid-feedback">
+                        Please provide a description.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(articleForm.content, 'Content', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(articleForm.content, {'attr': {'class': 'form-control', 'rows': '5'}}) }}
+                    <div class="invalid-feedback">
+                        Please provide the content.
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    {{ form_end(articleForm) }}
+                </div>
+
+            </div>
+        </div>
+    </div>
 {% endblock %}

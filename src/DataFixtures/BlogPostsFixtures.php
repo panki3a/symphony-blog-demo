@@ -21,7 +21,7 @@ class BlogPostsFixtures extends Fixture
 
         for ($i = 0; $i < 10; $i++) {
             $article = new Article();
-            $article->setTitle($faker->realText(100, 1));
+            $article->setTitle($faker->realText(50, 1));
             $article->setDescription($faker->realText(255, 1));
             $article->setContent($faker->realText(600, 5));
             $article->setPublishedAt(new \DateTimeImmutable());

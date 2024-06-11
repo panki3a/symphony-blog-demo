@@ -23,6 +23,7 @@
         "doctrine/doctrine-fixtures-bundle": "^3.6.1",
         "friendsofphp/php-cs-fixer": "^3.58.1",
         "fzaninotto/faker": "^1.5",
+        "php-parallel-lint/php-var-dump-check": "^0.5.0",
         "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan": "^1.11.4",
         "phpunit/phpunit": "^11.2.0",
@@ -83,8 +84,9 @@
         ],
         "phpcs": "vendor/bin/phpcs --standard=PSR12 -n --colors --extensions=php ./src",
         "phpcsfix": "vendor/bin/php-cs-fixer fix ./src --rules=@PSR12,declare_strict_types --allow-risky=yes",
-        "phpstan": "php -d memory_limit=-1 ./vendor/bin/phpstan analyse",
+        "phpstan": "php -d memory_limit=-1 ./vendor/bin/phpstan analyse ",
         "commented-code": "vendor/bin/swiss-knife check-commented-code ./src",
+        "var-dump-check": " vendor/bin/var-dump-check --symfony --tracy ./src",
         "phpunit": "vendor/bin/phpunit"
     },
     "conflict": {

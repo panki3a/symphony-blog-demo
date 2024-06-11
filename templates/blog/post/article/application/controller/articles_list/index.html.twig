@@ -1,41 +1,97 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Homepage{% endblock %}
+{% block title %}Blog Posts{% endblock %}
 
 {% block body %}
-    <h2>Latest Articles</h2>
-    <ul>
+    <div class="container mt-4">
+        <h1>Blog Posts</h1>
         {% for article in articles %}
-            <li>
-                <h3>
-                    <a href="{{ path('article_detail', {slug: article.slug, articleId: article.id}) }}">{{ article.title }}</a>
-                </h3>
-                <p>description: {{ article.description }}</p>
-                <p>name: {{ article.author.name }}</p>
-                <p>surname: {{ article.author.surname }}</p>
-                <p>email: {{ article.author.email }}</p>
-                <p>date: {{ article.getCreatedAt()|date('m:d:Y h:i') }}</p>
-                <p>comment count : {{ article.commentsCount }}</p>
-            </li>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <a href="{{ path('article_detail', {slug: article.slug, articleId: article.id}) }}">{{ article.title }}</a>
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ article.description }}</p>
+                </div>
+                <div class="card-footer text-muted">
+                    Posted on {{ article.getCreatedAt()|date('m:d:Y h:i') }} by {{ article.author.name }} {{ article.author.surname }}
+                    <p>Email: {{ article.author.email }}</p>
+                    <p>Comments Count: {{ article.commentsCount() }}</p>
+                </div>
+            </div>
         {% else %}
-            <li>No articles found</li>
+            <p>No articles found.</p>
         {% endfor %}
-    </ul>
+    </div>
 
     {% block pagination %}
-        <div class="pagination">
-            {% if page > 1 %}
-                <a href="{{ path('articles_list', {'page': page - 1}) }}">Previous</a>
-            {% endif %}
+        <div class="d-flex justify-content-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    {% if page > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path('articles_list', {'page': page - 1}) }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
 
-            {% for i in 1..(total // limit + 1 ) %}
-                <a href="{{ path('articles_list', {'page': i}) }}" class="{{ page == i ? 'active' : '' }}">{{ i }}</a>
-            {% endfor %}
+                    {% for i in 1..(total // limit + (total % limit > 0 ? 1 : 0)) %}
+                        <li class="page-item {{ page == i ? 'active' : '' }}">
+                            <a class="page-link" href="{{ path('articles_list', {'page': i}) }}">{{ i }}</a>
+                        </li>
+                    {% endfor %}
 
-            {% if page < (total // limit + 1 ) %}
-                <a href="{{ path('articles_list', {'page': page + 1}) }}">Next</a>
-            {% endif %}
+                    {% if page < (total // limit + (total % limit > 0 ? 1 : 0)) %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path('articles_list', {'page': page + 1}) }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
         </div>
     {% endblock %}
-
 {% endblock %}
+
+
+{# {% block body %} #}
+{#    <h2>Latest Articles</h2> #}
+{#    <ul> #}
+{#        {% for article in articles %} #}
+{#            <li> #}
+{#                <h3> #}
+{#                    <a href="{{ path('article_detail', {slug: article.slug, articleId: article.id}) }}">{{ article.title }}</a> #}
+{#                </h3> #}
+{#                <p>description: {{ article.description }}</p> #}
+{#                <p>name: {{ article.author.name }}</p> #}
+{#                <p>surname: {{ article.author.surname }}</p> #}
+{#                <p>email: {{ article.author.email }}</p> #}
+{#                <p>date: {{ article.getCreatedAt()|date('m:d:Y h:i') }}</p> #}
+{#                <p>comment count : {{ article.commentsCount }}</p> #}
+{#            </li> #}
+{#        {% else %} #}
+{#            <li>No articles found</li> #}
+{#        {% endfor %} #}
+{#    </ul> #}
+
+{#    {% block pagination %} #}
+{#        <div class="pagination"> #}
+{#            {% if page > 1 %} #}
+{#                <a href="{{ path('articles_list', {'page': page - 1}) }}">Previous</a> #}
+{#            {% endif %} #}
+
+{#            {% for i in 1..(total // limit + 1 ) %} #}
+{#                <a href="{{ path('articles_list', {'page': i}) }}" class="{{ page == i ? 'active' : '' }}">{{ i }}</a> #}
+{#            {% endfor %} #}
+
+{#            {% if page < (total // limit + 1 ) %} #}
+{#                <a href="{{ path('articles_list', {'page': page + 1}) }}">Next</a> #}
+{#            {% endif %} #}
+{#        </div> #}
+{#    {% endblock %} #}
+
+{# {% endblock %} #}
